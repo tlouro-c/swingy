@@ -1,21 +1,40 @@
-# Functionality assessment
+## Functionality Assessment
 
-## Program Overall Logic
+### Program Overview
 
-	A user starts the game by being able to chose between an existing Hero or creating a new hero.
-	After choosing his hero, a map is generated based on his level and enemies spawn on different random locations, and the user character spawns in the middle of the map.
-	The user's objectives is to reach one of the borders of the map, by moving one square at a time in one of the 4 directions: North, East, South, West.
-	If a user moves to a position occupied by a villain, he has 2 options:
-		- Run:
-			He has 50% chance of being able to run and 50% of having to fight.
-		- Fight:
-			A simulation based on the stats of each character and a bit of luck, with the following possible outcomes:
-				- Hero loses:
-					- He loses the mission and is redirected to the Create/Select Character Screen.
-				- Hero wins:
-					- Hero wins XP and levels up if possible.
-					- The possibility of a Villain dropping an artifact, which the Hero can pick or not.
-	If a user passes the mission he gets 3 options:
-		- Leave the game.
-		- Go to next mission.
-		- Play with a different Hero.
+In this game, the player controls a hero, with the option to either select an existing character or create a new one. The game proceeds with the following flow:
+
+1. **Hero Selection:**
+   - The player chooses between an existing Hero or creates a new one.
+   
+2. **Map Generation & Enemy Spawns:**
+   - A map is generated based on the Hero's level.
+   - Enemies (villains) spawn at random locations on the map.
+   - The Hero spawns in the center of the map.
+
+3. **Objective:**
+   - The player's goal is to move the Hero to one of the borders of the map by navigating one square at a time in one of four directions: North, East, South, or West.
+   
+4. **Enemy Encounters:**
+   - If the player moves to a square occupied by a villain, they have two options:
+   
+     - **Run:**
+       - 50% chance of successfully escaping.
+       - 50% chance of being forced to fight.
+
+     - **Fight:**
+       - The outcome is determined based on character stats and a bit of luck. Possible outcomes include:
+         
+         - **Hero Loses:**
+           - The Hero loses the mission and is redirected to the Create/Select Character screen.
+         
+         - **Hero Wins:**
+           - The Hero earns XP and may level up.
+           - There's a chance the villain will drop an artifact, which the player can choose to pick up.
+
+5. **Mission Completion:**
+   - Upon successfully reaching the border of the map, the player is presented with three options:
+   
+     - **Leave the Game**
+     - **Proceed to the Next Mission**
+     - **Play with a Different Hero**
