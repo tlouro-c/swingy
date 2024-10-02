@@ -1,0 +1,45 @@
+<mxfile host="65bd71144e">
+    <diagram id="92ahizj5UFSDNUKhfnx4" name="Page-1">
+        <mxGraphModel dx="884" dy="630" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="23" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endSize=20;" edge="1" parent="1" source="3" target="22">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;Character&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;- String name&lt;br&gt;- ImageIcon image&lt;br&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- HeroClass class (enum)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- Level level&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- int attack&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- int defense&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- int hitPoints&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- Artifact artifact&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;public getters and setters&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;overflow=fill;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="680" y="100" width="240" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endSize=20;" edge="1" parent="1" source="13" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;Hero&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;~ Hero()&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;overflow=fill;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="360" width="240" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;FightSimulator (Singleton)&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;- FightSimulator instance&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;- FightSimulator()&lt;br&gt;+ getInstance()&lt;br&gt;+ Character runSimulation(Hero, Villain)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;overflow=fill;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="390" y="570" width="240" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;Map&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;- Mapable[] squares&lt;br&gt;- int sideSize&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;+ Map(int sideSize)&lt;br&gt;+ populate()&lt;br&gt;+ getSideSize()&lt;br&gt;+ setSideSize()&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;overflow=fill;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="1280" y="330" width="240" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endSize=20;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="18" target="3">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="799.9999999999998" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;Villain&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;~ Villain()&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;overflow=fill;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="920" y="355" width="240" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;Mapable&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;- int xCoordinate;&lt;br&gt;- int yCoordinate;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;public getters and setters&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;overflow=fill;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="20" width="190" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endSize=20;" edge="1" parent="1" source="25" target="13">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;HeroBuilder&lt;br&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;-- String name&lt;br&gt;- ImageIcon image&lt;br&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- HeroClass class (enum)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- Level level&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- int attack&lt;/div&gt;&lt;div&gt;- int defense&lt;/div&gt;&lt;div&gt;- int hitPoints&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ void name(String name)&lt;/div&gt;&lt;div&gt;+ void image(ImageIcon image)&lt;/div&gt;&lt;div&gt;+ void class(HeroClass class)&lt;/div&gt;&lt;div&gt;+ void level(Level level)&lt;/div&gt;&lt;div&gt;+ void attack(int attack)&lt;/div&gt;&lt;div&gt;+ void defense(int defense)&lt;/div&gt;&lt;div&gt;+ void hitPoints(int hitPoints)&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;+ Hero build()&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;overflow=fill;strokeWidth=2;" vertex="1" parent="1">
+                    <mxGeometry x="70" y="295" width="240" height="320" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
