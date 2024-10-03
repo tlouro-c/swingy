@@ -12,7 +12,7 @@ public class Level {
 		levelUpExperience = level * 1000 + (int)Math.pow(level - 1, 2) * 450;
 	}
 
-	Level(int level) {
+	public Level(int level) {
 		this.level = level;
 		this.levelUpExperience = level * 1000 + (int)Math.pow(level - 1, 2) * 450;
 	}
@@ -26,8 +26,8 @@ public class Level {
 	public int getRealExperience() {
 		return realExperience;
 	}
-	public void increaseExperience(int experience) {
-		realExperience += experience;
+	public void updateExperience(int gainedExperience) {
+		realExperience += gainedExperience;
 		if (realExperience >= levelUpExperience) {
 			levelUp();
 		}

@@ -1,4 +1,6 @@
-package tc.tlouro_c.swingy.entities;
+package tc.tlouro_c.swingy.entities.artifacts;
+
+import tc.tlouro_c.swingy.entities.Artifact;
 
 public class ArtifactFactory {
 
