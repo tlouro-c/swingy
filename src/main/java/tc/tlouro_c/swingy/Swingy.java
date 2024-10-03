@@ -1,10 +1,6 @@
 package tc.tlouro_c.swingy;
 
-/**
- * Hello world!
- *
- */
-public class App 
+public class Swingy 
 {
     public static void main( String[] args )
     {
