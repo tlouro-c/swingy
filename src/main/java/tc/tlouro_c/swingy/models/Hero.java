@@ -1,13 +1,13 @@
 package tc.tlouro_c.swingy.models;
 
-import javax.swing.ImageIcon;
+import tc.tlouro_c.swingy.utils.Sprite;
 
 public class Hero extends Character {
 
-	Hero(String name, ImageIcon sprite, CharacterClass characterClass, int attack, int defense, int maxHP) {
+	Hero(String name, int spriteNumber, CharacterClass characterClass, int attack, int defense, int maxHP) {
 		this.level = new Level(1);
 		this.name = name;
-		this.sprite = sprite;
+		this.sprite = new Sprite(true, spriteNumber);
 		this.characterClass = characterClass;
 		this.attack = (int)((attack + 50) * this.characterClass.getAttackMultiplier());
 		this.defense = (int)((defense + 50) * this.characterClass.getDefenseMultiplier());

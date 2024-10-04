@@ -17,11 +17,11 @@ public class VillainFactory {
 		int random = (int)(2.99 * Math.random());
 
 		if (random == 0) {
-			return new Zephyrex();
+			return new Arcanine();
 		} else if (random == 1) {
-			return new Terraphin();
+			return new Machamp();
 		} else {
-			return new Lumetis();
+			return new Gyarados();
 		}
 	}
 }

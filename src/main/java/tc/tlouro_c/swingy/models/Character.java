@@ -2,10 +2,12 @@ package tc.tlouro_c.swingy.models;
 
 import javax.swing.ImageIcon;
 
+import tc.tlouro_c.swingy.utils.Sprite;
+
 public class Character extends MapEntity {
 
 	protected String name;
-	protected ImageIcon sprite;
+	protected Sprite sprite;
 	protected CharacterClass characterClass;
 	protected Level level;
 	protected int attack;
@@ -100,8 +102,12 @@ public class Character extends MapEntity {
 		return name;
 	}
 
-	public ImageIcon getSprite() {
-		return sprite;
+	public ImageIcon getPreviewSprite() {
+		return sprite.getPreviewSprite();
+	}
+
+	public ImageIcon getMapSprite() {
+		return sprite.getMapSprite();
 	}
 
 	public CharacterClass getCharacterClass() {

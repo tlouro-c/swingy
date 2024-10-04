@@ -2,10 +2,8 @@ package tc.tlouro_c.swingy;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.concurrent.Flow;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class Frame extends JFrame {
 

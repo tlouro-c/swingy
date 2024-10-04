@@ -12,7 +12,7 @@ public class HeroTest {
 		HeroBuilder heroBuilder = new HeroBuilder();
 
 		heroBuilder.name("Charizard")
-					.sprite(null)
+					.sprite(1)
 					.characterClass(CharacterClass.ASSASSIN)
 					.attack(10)
 					.defense(10)
@@ -27,7 +27,7 @@ public class HeroTest {
 
 		System.out.println(myVillain);
 
-		Character winner =  FightSimulator.getInstance().runSimulation(myHero, myVillain);
+		FightSimulator.getInstance().runSimulation(myHero, myVillain);
 
 
 	}

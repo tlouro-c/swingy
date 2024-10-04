@@ -1,17 +1,16 @@
 package tc.tlouro_c.swingy.models.villains;
 
-import javax.swing.ImageIcon;
-
 import tc.tlouro_c.swingy.models.CharacterClass;
 import tc.tlouro_c.swingy.models.Villain;
+import tc.tlouro_c.swingy.utils.Sprite;
 import tc.tlouro_c.swingy.models.Level;
 
 
-public class Lumetis extends Villain {
+public class Machamp extends Villain {
 
-	Lumetis() {
-		this.name = "Lumetis";
-		this.sprite = new ImageIcon(getClass().getResource("/sprites/Lumetis.png"));
+	Machamp() {
+		this.name = "Machamp";
+		this.sprite = new Sprite(false, 3);
 		this.characterClass = CharacterClass.BRUISER;
 		this.level = new Level((int)(1 + (6 - 1) * Math.random()));
 		this.assignStats();

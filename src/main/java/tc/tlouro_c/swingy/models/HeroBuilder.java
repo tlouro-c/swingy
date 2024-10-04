@@ -1,11 +1,9 @@
 package tc.tlouro_c.swingy.models;
 
-import javax.swing.ImageIcon;
-
 public class HeroBuilder {
 
 	private String name;
-	private ImageIcon sprite;
+	private int spriteNumber;
 	private CharacterClass characterClass;
 	private int attack;
 	private int defense;
@@ -15,8 +13,9 @@ public class HeroBuilder {
 		this.name = name;
 		return this;
 	}
-	public HeroBuilder sprite(ImageIcon sprite) {
-		this.sprite = sprite;
+
+	public HeroBuilder sprite(int spriteNumber) {
+		this.spriteNumber = spriteNumber;
 		return this;
 	}
 	public HeroBuilder characterClass(CharacterClass characterClass) {
@@ -36,7 +35,7 @@ public class HeroBuilder {
 		return this;
 	}
 	public Hero build() {
-		return new Hero(name, sprite, characterClass, attack, defense, maxHP);
+		return new Hero(name, spriteNumber, characterClass, attack, defense, maxHP);
 	}
 	
 }
