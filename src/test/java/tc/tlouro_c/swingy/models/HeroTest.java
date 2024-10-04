@@ -2,7 +2,6 @@ package tc.tlouro_c.swingy.models;
 
 import org.junit.Test;
 
-import tc.tlouro_c.swingy.models.artifacts.ArtifactFactory;
 import tc.tlouro_c.swingy.models.villains.VillainFactory;
 
 public class HeroTest {
@@ -17,20 +16,18 @@ public class HeroTest {
 					.characterClass(CharacterClass.ASSASSIN)
 					.attack(10)
 					.defense(10)
-					.hitPoints(10);
+					.maxHP(10);
 
 		Hero myHero = heroBuilder.build();
-		myHero.updateExperience(2000);
+		myHero.updateExperience(4000);
 
 		Villain myVillain = VillainFactory.getInstance().newRandomVillain();
-		
-		myHero.attack(myVillain);
-
-		//myHero.equipArtifact(ArtifactFactory.getInstance().newRandomArtifact());
 
 		System.out.println(myHero);
 
 		System.out.println(myVillain);
+
+		Character winner =  FightSimulator.getInstance().runSimulation(myHero, myVillain);
 
 
 	}

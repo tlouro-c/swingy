@@ -10,6 +10,6 @@ public class Helmet extends Artifact {
 	
 	@Override
 	public String toString() {
-		return String.format("Helmet [ Bonus Hit Points: %.2f%% ]", this.getHitPointsMultiplier());
+		return String.format("Helmet [ Bonus Hit Points: %.2f%% ]", this.getMaxHPMultiplier());
 	}
 }

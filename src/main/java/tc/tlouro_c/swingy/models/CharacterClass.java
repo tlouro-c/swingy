@@ -5,12 +5,12 @@ public enum CharacterClass {
 
 	private double attackMultiplier;
 	private double defenseMultiplier;
-	private double hitPointsMultiplier;
+	private double maxHPMultiplier;
 
-	private CharacterClass(double attackMultiplier, double defenseMultiplier, double hitPointsMultiplier) {
+	private CharacterClass(double attackMultiplier, double defenseMultiplier, double maxHPMultiplier) {
 		this.attackMultiplier = attackMultiplier;
 		this.defenseMultiplier = defenseMultiplier;
-		this.hitPointsMultiplier = hitPointsMultiplier;
+		this.maxHPMultiplier = maxHPMultiplier;
 	}
 
 	public double getAttackMultiplier() {
@@ -21,8 +21,8 @@ public enum CharacterClass {
 		return defenseMultiplier;
 	}
 
-	public double getHitPointsMultiplier() {
-		return hitPointsMultiplier;
+	public double getMaxHPMultiplier() {
+		return maxHPMultiplier;
 	}
 
 

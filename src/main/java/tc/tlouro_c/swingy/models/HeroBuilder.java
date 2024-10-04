@@ -9,7 +9,7 @@ public class HeroBuilder {
 	private CharacterClass characterClass;
 	private int attack;
 	private int defense;
-	private int hitPoints;
+	private int maxHP;
 
 	public HeroBuilder name(String name) {
 		this.name = name;
@@ -31,12 +31,12 @@ public class HeroBuilder {
 		this.defense = defense;
 		return this;
 	}
-	public HeroBuilder hitPoints(int hitPoints) {
-		this.hitPoints = hitPoints;
+	public HeroBuilder maxHP(int maxHP) {
+		this.maxHP = maxHP;
 		return this;
 	}
 	public Hero build() {
-		return new Hero(name, sprite, characterClass, attack, defense, hitPoints);
+		return new Hero(name, sprite, characterClass, attack, defense, maxHP);
 	}
 	
 }

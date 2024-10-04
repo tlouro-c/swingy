@@ -14,7 +14,8 @@ public class Villain extends Character {
 		protected void assignStats() {
 			this.attack = (int)((60) * this.characterClass.getAttackMultiplier());
 			this.defense = (int)((60) * this.characterClass.getDefenseMultiplier());
-			this.hitPoints = (int)((210) * this.characterClass.getHitPointsMultiplier());
+			this.maxHP = (int)((210) * this.characterClass.getMaxHPMultiplier());
+			this.currentHP = this.maxHP;
 
 			this.level = new Level(1);
 			int randomLevel = (int)(1 + (6.99 - 1) * Math.random()); // Generate a random level for the Villain

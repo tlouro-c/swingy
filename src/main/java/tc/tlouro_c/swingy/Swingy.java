@@ -4,6 +4,7 @@ public class Swingy
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Frame frame = new Frame();
+		frame.setVisible(true);
     }
 }

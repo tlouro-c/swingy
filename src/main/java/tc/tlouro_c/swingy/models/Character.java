@@ -10,18 +10,14 @@ public class Character extends MapEntity {
 	protected Level level;
 	protected int attack;
 	protected int defense;
-	protected int hitPoints;
+	protected int maxHP;
+	protected int currentHP;
 	protected Artifact artifact;
 
 	protected Character() {}
 
-	protected Character(String name, ImageIcon sprite, CharacterClass characterClass, int attack, int defense, int hitPoints) {
-		this.name = name;
-		this.sprite = sprite;
-		this.characterClass = characterClass;
-		this.attack = attack;
-		this.defense = defense;
-		this.hitPoints = hitPoints;
+	public boolean isAlive() {
+		return this.currentHP > 0;
 	}
 
 	public int getLevel() {
@@ -39,10 +35,15 @@ public class Character extends MapEntity {
 		level.levelUp();
 
 		Artifact onHoldArtifact = this.unequipArtifact();
-			
-		this.attack += level.getLevel() * 10 * Math.pow(1.1, level.getLevel());
-		this.defense += level.getLevel() * 10 * Math.pow(1.2, level.getLevel());
-		this.hitPoints += level.getLevel() * 10 * Math.pow(1.5, level.getLevel());
+		
+		this.attack += (Math.log(level.getLevel() + 1) * 20);
+		this.defense += (Math.log(level.getLevel() + 1) * 20);
+		int bonusMaxHP = (int)((Math.log(level.getLevel() + 1) * 30));
+		setMaxHP(maxHP + bonusMaxHP);
+		setCurrentHP(currentHP + bonusMaxHP);
+
+		System.out.println("Level up! " + this.name + " is now level " + this.level.getLevel() + "!");
+		System.out.println("bonus max hp earned = " + bonusMaxHP);
 
 		if (onHoldArtifact != null) {
 			this.equipArtifact(onHoldArtifact);
@@ -53,12 +54,13 @@ public class Character extends MapEntity {
 		
 		int bonusAttack = (int)(this.attack * artifact.getAttackMultiplier()) - this.attack;
 		int bonusDefense = (int)(this.defense * artifact.getDefenseMultiplier()) - this.defense;
-		int bonusHitPoints = (int)(this.hitPoints * artifact.getHitPointsMultiplier()) - this.hitPoints;
+		int bonusMaxHP = (int)(this.maxHP * artifact.getMaxHPMultiplier()) - this.maxHP;
 
 		this.artifact = artifact;
 		this.attack += bonusAttack;
 		this.defense += bonusDefense;
-		this.hitPoints += bonusHitPoints;
+		setMaxHP(maxHP + bonusMaxHP);
+		setCurrentHP(this.currentHP + bonusMaxHP);
 	}
 
 	public Artifact unequipArtifact() {
@@ -67,21 +69,27 @@ public class Character extends MapEntity {
 
 		int bonusAttack = (int)(this.attack * artifact.getAttackMultiplier()) - this.attack;
 		int bonusDefense = (int)(this.defense * artifact.getDefenseMultiplier()) - this.defense;
-		int bonusHitPoints = (int)(this.hitPoints * artifact.getHitPointsMultiplier()) - this.hitPoints;
+		int bonusMaxHP = (int)(this.maxHP * artifact.getMaxHPMultiplier()) - this.maxHP;
 
 		var artifactDrop = this.artifact;
 		this.artifact = null;
 		this.attack -= bonusAttack;
 		this.defense -= bonusDefense;
-		this.hitPoints -= bonusHitPoints;
+		setMaxHP(maxHP - bonusMaxHP);
 		return artifactDrop;
 	}
 	
 	private void takeDamage(int damage) {
 
+		//Dodging possibility
+		boolean dodged = Math.random() > 0.85;
+		if (dodged) {
+			return;
+		}
+
 		//Apply diminishing returns formula to calculate the damage mitigated by the defense
 		int trueDamage = (int)(damage / (1.0 + (this.defense / 100.0)));
-		this.hitPoints -= trueDamage;
+		this.currentHP -= trueDamage;
 	}
 
 	void attack(Character other) {
@@ -96,7 +104,7 @@ public class Character extends MapEntity {
 		return sprite;
 	}
 
-	public CharacterClass getcharacterClass() {
+	public CharacterClass getCharacterClass() {
 		return characterClass;
 	}
 
@@ -116,12 +124,23 @@ public class Character extends MapEntity {
 		this.defense = defense;
 	}
 
-	public int getHitPoints() {
-		return hitPoints;
+	public int getMaxHP() {
+		return maxHP;
 	}
 
-	public void setHitPoints(int hitPoints) {
-		this.hitPoints = hitPoints;
+	public void setMaxHP(int maxHP) {
+		this.maxHP = maxHP;
+		if (this.currentHP > this.maxHP) {
+			this.currentHP = this.maxHP;
+		}
+	}
+
+	public int getCurrentHP() {
+		return currentHP;
+	}
+
+	public void setCurrentHP(int currentHP) {
+		this.currentHP = Math.min(this.maxHP, currentHP);
 	}
 
 	public Artifact getArtifact() {
@@ -138,9 +157,29 @@ public class Character extends MapEntity {
 		sb.append("Level: ").append(level).append("\n");
 		sb.append("Attack: ").append(attack).append("\n");
 		sb.append("Defense: ").append(defense).append("\n");
-		sb.append("Hit Points: ").append(hitPoints).append("\n");
+		sb.append("Hit Points: ").append(currentHP).append("/").append(maxHP).append("\n");
+    	sb.append(generateHitPointsProgressBar(currentHP, maxHP, 20)).append("\n"); // 20 is the length of the progress bar
+    
 		sb.append("Equipped Artifact: ").append(artifact != null ? artifact.toString() : "None").append("\n");
 		sb.append("===================\n");
     	return sb.toString();
 	}
+
+	// Helper method to generate a hit points progress bar
+private String generateHitPointsProgressBar(int current, int max, int barLength) {
+    StringBuilder progressBar = new StringBuilder();
+    int filledLength = (int) ((double) current / max * barLength); // Calculate the filled portion of the bar
+    
+    // Append filled part of the bar
+    for (int i = 0; i < filledLength; i++) {
+        progressBar.append("█"); // Unicode block for filled part
+    }
+    
+    // Append unfilled part of the bar
+    for (int i = filledLength; i < barLength; i++) {
+        progressBar.append("░"); // Unicode block for unfilled part
+    }
+
+    return progressBar.toString();
+}
 }
