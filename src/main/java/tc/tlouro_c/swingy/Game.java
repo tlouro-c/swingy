@@ -4,6 +4,7 @@ public class Game {
 
 	// Hero Select Screen Controller
 	// Gameplay Controller
+	boolean cli = false;
 
 
 	void run() {
@@ -17,5 +18,15 @@ public class Game {
 	void gameplay() {
 
 	}
+
+	public boolean isCli() {
+		return cli;
+	}
+
+	public void setCli(boolean cli) {
+		this.cli = cli;
+	}
+
+	
 	
 }

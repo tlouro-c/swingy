@@ -26,6 +26,14 @@ public class Character extends MapEntity {
 		return level.getLevel();
 	}
 
+	public int getCurrentXP() {
+		return level.getRealExperience();
+	}
+
+	public int getLvlUpXP() {
+		return level.getLevelUpExperience();
+	}
+
 	public void updateExperience(int gainedExperience) {
 		level.updateRealExperience(gainedExperience);
 		while (level.getRealExperience() >= level.getLevelUpExperience() && getLevel() < 6) {
@@ -43,9 +51,6 @@ public class Character extends MapEntity {
 		int bonusMaxHP = (int)((Math.log(level.getLevel() + 1) * 30));
 		setMaxHP(maxHP + bonusMaxHP);
 		setCurrentHP(currentHP + bonusMaxHP);
-
-		System.out.println("Level up! " + this.name + " is now level " + this.level.getLevel() + "!");
-		System.out.println("bonus max hp earned = " + bonusMaxHP);
 
 		if (onHoldArtifact != null) {
 			this.equipArtifact(onHoldArtifact);
@@ -102,12 +107,12 @@ public class Character extends MapEntity {
 		return name;
 	}
 
-	public ImageIcon getPreviewSprite() {
-		return sprite.getPreviewSprite();
+	public ImageIcon getPreviewSprite(int height, int width) {
+		return sprite.getPreviewSprite(height, width);
 	}
 
-	public ImageIcon getMapSprite() {
-		return sprite.getMapSprite();
+	public ImageIcon getMapSprite(int height, int width) {
+		return sprite.getMapSprite(height, width);
 	}
 
 	public CharacterClass getCharacterClass() {

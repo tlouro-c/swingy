@@ -28,14 +28,14 @@ public class FightSimulator {
 		}
 		Character winner = hero.isAlive() ? hero : villain;
 
-		System.out.println(hero);
-		System.out.println(villain);
-
 		//Winner restores half of the damage taken
 		int damageTaken = winner == hero ?
 			heroInitialHP - hero.getCurrentHP() : villainInitialHP - villain.getCurrentHP();
 				
 		winner.setCurrentHP(winner.getCurrentHP() + damageTaken / 2);
+
+		//Winner gets experience based on enemy level
+		winner.updateExperience(villain.getLevel() * 500);
 		
 		return winner;
 	}

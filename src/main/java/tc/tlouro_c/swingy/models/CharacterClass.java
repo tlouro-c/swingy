@@ -25,6 +25,11 @@ public enum CharacterClass {
 		return maxHPMultiplier;
 	}
 
-
+	@Override
+	public String toString() {
+		StringBuilder test = new StringBuilder(name().toString().toLowerCase());
+		test.setCharAt(0, (char)(test.charAt(0) - 32));
+		return new String(test);
+	}
 
 }

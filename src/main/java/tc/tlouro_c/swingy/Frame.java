@@ -1,17 +1,26 @@
 package tc.tlouro_c.swingy;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Color;
 
 import javax.swing.JFrame;
 
 public class Frame extends JFrame {
 
-	public Frame() {
+	private static Frame instance;
+
+	public static Frame getInstance() {
+		if (instance == null) {
+			instance = new Frame();
+		}
+		return instance;
+	}
+
+	private Frame() {
 		super("Swingy");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(new FlowLayout());
-		this.setSize(new Dimension(500, 500));
+		this.setSize(1024, 768);
+		this.getContentPane().setBackground((Color.decode("#292b2b")));
+		this.setResizable(false);
 	}
 
 	
