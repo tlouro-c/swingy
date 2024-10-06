@@ -16,6 +16,21 @@ public class Hero extends Character {
 		this.extraPointsUsed = maxHP + defense + attack;
 	}
 
+	Hero(int dbId, String name, int spriteNumber, Level level, CharacterClass characterClass, int attack, int defense, int maxHP, Artifact artifact) {
+		this.dbId = dbId;
+		this.level = level;
+		this.name = name;
+		this.sprite = new Sprite(true, spriteNumber);
+		this.characterClass = characterClass;
+		this.attack = attack;
+		this.defense = defense;
+		this.maxHP = maxHP;
+		this.currentHP = this.maxHP;
+		this.artifact = artifact;
+	}
+
+
+
 	public void move(Direction direction, Map map) {
 	}
 }

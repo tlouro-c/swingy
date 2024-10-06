@@ -24,5 +24,20 @@ public class ArtifactFactory {
 			return new Helmet();
 		}
 	}
-	
+
+	public Artifact newArtifact(String type) {
+		if (type == null) {
+			return null;
+		}
+		switch (type.toLowerCase()) {
+			case "weapon":
+				return new Weapon();
+			case "armor":
+				return new Armor();
+			case "helmet":
+				return new Helmet();
+			default:
+				return null;
+		}
+	}
 }

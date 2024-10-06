@@ -28,11 +28,17 @@ public class Character extends MapEntity {
 	@Max(value = 30, message = "Extra points used must be less than 30.")
 	protected int extraPointsUsed;
 	
+	protected int dbId;
 	protected Sprite sprite;
 	protected int currentHP;
 	protected Artifact artifact;
 
-	protected Character() {}
+	protected Character() {
+	}
+
+	public int getDbId() {
+		return dbId;
+	}
 
 	public boolean isAlive() {
 		return this.currentHP > 0;
@@ -172,6 +178,10 @@ public class Character extends MapEntity {
 
 	public Artifact getArtifact() {
 		return artifact;
+	}
+
+	public int getSpriteNumber() {
+		return sprite.getSpriteNumber();
 	}
 
 	@Override

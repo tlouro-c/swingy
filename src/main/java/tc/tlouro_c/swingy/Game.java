@@ -1,22 +1,39 @@
 package tc.tlouro_c.swingy;
 
+import tc.tlouro_c.swingy.controllers.GameplayController;
+import tc.tlouro_c.swingy.controllers.HeroSelectController;
+import tc.tlouro_c.swingy.utils.DBManager;
+import tc.tlouro_c.swingy.utils.Frame;
+
 public class Game {
 
-	// Hero Select Screen Controller
-	// Gameplay Controller
-	boolean cli = false;
+	private Frame window;
+	private HeroSelectController heroSelectController;
+	private GameplayController gameplayController;
+	private boolean cli;
 
-
-	void run() {
-		heroSelection();
+	public Game() {
+		this.cli = false;
+		this.window = new Frame("Swingy - Hero Selection");
+		this.heroSelectController = new HeroSelectController(e -> gameplay());
+		this.gameplayController = new GameplayController();
 	}
 
-	void heroSelection() {
+	void run() {
+		DBManager.getInstance().createTableIfNotExists();
+		loadHeroSelection();
+	}
 
+	void loadHeroSelection() {
+		heroSelectController.setFrame(window);
+		heroSelectController.loadInitialScreen();
 	}
 
 	void gameplay() {
-
+		window.dispose();
+		window = new Frame("Swingy");
+		gameplayController.setFrame(window);
+		gameplayController.start();
 	}
 
 	public boolean isCli() {

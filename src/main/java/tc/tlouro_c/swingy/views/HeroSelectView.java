@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Desktop.Action;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Flow;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,6 +19,7 @@ import javax.swing.border.Border;
 
 import tc.tlouro_c.swingy.models.Character;
 import tc.tlouro_c.swingy.models.CharacterClass;
+import tc.tlouro_c.swingy.utils.DBManager;
 import tc.tlouro_c.swingy.utils.Sprite;
 import tc.tlouro_c.swingy.utils.SuperJPanel;
 
@@ -30,6 +34,7 @@ public class HeroSelectView {
 	private SuperJPanel mainScreen;
 	private JButton createHeroBtn;
 	private JButton selectExistingHeroBtn;
+	private JButton startGameBtn;
 	private JTextField heroName;
 	private JLabel attackPointsLabel;
 	private JLabel defensePointsJLabel;
@@ -37,26 +42,98 @@ public class HeroSelectView {
 	private JLabel heroClassLabel;
 	private JLabel remainingPointsLabel;
 	private int selectedSprite;
+	private ActionListener listenerForCreateHeroBtn;
+	private ActionListener listenerForGameStart;
+	private Character selectedHero;
 
-	public HeroSelectView() {
+
+	public HeroSelectView(ActionListener listenerForCreateHeroBtn, ActionListener listenerForGameStart) {
 		panel = new SuperJPanel(1020, 738,  new FlowLayout(FlowLayout.LEFT, 3, 3));
 		characterView = new CharacterView();
 		leftColumn = new SuperJPanel(660, 730, panel.getLayout());
 		rightColumn = new SuperJPanel(350, 730, panel.getLayout());
 		mainScreen = new SuperJPanel(650, 500, panel.getLayout());
 		selectedSprite = 1;
+		this.listenerForCreateHeroBtn = listenerForCreateHeroBtn;
+		this.listenerForGameStart = listenerForGameStart;
 		Border border = BorderFactory.createLineBorder(Color.WHITE, 8);
 		mainScreen.setBorder(border);
 	}
 
-	public SuperJPanel startScreen(ActionListener listenerForCreateHeroBtn) {
-		loadInitialButtons(listenerForCreateHeroBtn);
+	public SuperJPanel startScreen() {
+		loadInitialButtons();
 		leftColumn.add(mainScreen);
 		panel.add(leftColumn);
 		panel.add(rightColumn);
 
 		return panel;
 	}
+
+	public void loadExistingHeroes() {
+
+		clearScreen();
+		mainScreen.setLayout(new BoxLayout(mainScreen, BoxLayout.Y_AXIS));
+		var container = new SuperJPanel(mainScreen.getWidth(), mainScreen.getHeight() - 70, new FlowLayout(FlowLayout.CENTER, 10, 10));
+		var titleLabel = SuperJPanel.titleLabel("Select A Hero", null);
+		SuperJPanel.addMargin(titleLabel, 60, 0, 60, 0);
+		container.add(titleLabel);
+
+		var heroesList = DBManager.getInstance().fetchHeroes();
+
+		for (Character hero : heroesList) {
+			var subContainer = new SuperJPanel(container.getWidth(), 40, new FlowLayout(FlowLayout.CENTER));
+
+			var nameLabel = subContainer.textLabel(hero.getName(), null, 0.5);
+			nameLabel.setHorizontalAlignment(JLabel.CENTER);
+			var selectHeroBtn = SuperJPanel.button("Select", 75, 30);
+			selectHeroBtn.addActionListener(e -> selectHero(hero));
+			var deleteHeroBtn = SuperJPanel.button("Delete", 75, 30);
+			deleteHeroBtn.addActionListener(e -> deleteHero(hero));
+
+			subContainer.add(selectHeroBtn);
+			subContainer.add(nameLabel);
+			subContainer.add(deleteHeroBtn);
+			container.add(subContainer);
+		}
+
+		mainScreen.add(container);
+
+		var finalBtnContainer = new SuperJPanel(mainScreen.getWidth(), 50, new FlowLayout(FlowLayout.CENTER, 20, 0));
+
+		var goBackBtn = SuperJPanel.button("Go Back", 100, 50);
+		goBackBtn.addActionListener(e -> loadInitialButtons());
+		startGameBtn = SuperJPanel.button("Start Game", 100, 50);
+		startGameBtn.setEnabled(false);
+		startGameBtn.addActionListener(listenerForGameStart);
+
+		finalBtnContainer.add(goBackBtn);
+		finalBtnContainer.add(startGameBtn);
+		mainScreen.add(finalBtnContainer);
+
+	}
+
+	private void selectHero(Character hero) {
+		updateHeroView(hero);
+		this.selectedHero = hero;
+		this.startGameBtn.setEnabled(true);
+	}
+
+	public Character getSelectedHero() {
+		return selectedHero;
+	}
+
+	private void deleteHero(Character hero) {
+
+		int confirmationResult = JOptionPane.showConfirmDialog(mainScreen,
+								"Are you sure you want to delete this hero?",
+								"Delete hero" , JOptionPane.YES_NO_OPTION);
+
+		if (confirmationResult == 0) {
+			DBManager.getInstance().deleteHero(hero);
+			loadExistingHeroes();
+		}
+	}
+
 
 	private void clearScreen() {
 		mainScreen.removeAll();
@@ -65,20 +142,37 @@ public class HeroSelectView {
 		rightColumn.removeAll();
 		rightColumn.revalidate();
         rightColumn.repaint();
+		if (dashboard != null) {
+			dashboard.removeAll();
+			dashboard.revalidate();
+			dashboard.repaint();
+		}
+		this.selectedHero = null;
 	}
 
-	private void loadInitialButtons(ActionListener listenerForCreateHeroBtn) {
+	private void loadInitialButtons() {
 		clearScreen();
 		mainScreen.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 210));
 
+		var databaseEntries = DBManager.getInstance().fetchHeroesCount();
+
 		createHeroBtn = SuperJPanel.button("Create a new hero", 200, 50);
-		createHeroBtn.addActionListener(e -> loadCreateHeroForm(listenerForCreateHeroBtn));
+		if (databaseEntries >= 5) {
+			createHeroBtn.setEnabled(false);
+		} else {
+			createHeroBtn.addActionListener(e -> loadCreateHeroForm());
+		}
 		selectExistingHeroBtn = SuperJPanel.button("Select an existing hero", 200, 50);
+		if (databaseEntries <= 0) {
+			selectExistingHeroBtn.setEnabled(false);
+		} else {
+			selectExistingHeroBtn.addActionListener(e -> loadExistingHeroes());
+		}
 		mainScreen.add(createHeroBtn);
 		mainScreen.add(selectExistingHeroBtn);
 	}
 
-	private void loadCreateHeroForm(ActionListener listenerForCreateHeroBtn) {
+	private void loadCreateHeroForm() {
 		clearScreen();
 		mainScreen.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 15));
 
@@ -93,7 +187,7 @@ public class HeroSelectView {
 		var finalBtnContainer = new SuperJPanel(mainScreen.getWidth(), 50, new FlowLayout(FlowLayout.CENTER, 20, 0));
 
 		var goBackBtn = SuperJPanel.button("Go Back", 100, 50);
-		goBackBtn.addActionListener(e -> loadInitialButtons(listenerForCreateHeroBtn));
+		goBackBtn.addActionListener(e -> loadInitialButtons());
 		var createHeroBtn = SuperJPanel.button("Create Hero", 100, 50);
 		createHeroBtn.addActionListener(listenerForCreateHeroBtn);
 

@@ -20,6 +20,13 @@ public class Level {
 		this.up = false;
 	}
 
+	public Level(int level, int currentXP) {
+		this.level = level;
+		this.levelUpExperience = level * 1000 + (int)Math.pow(level - 1, 2) * 450;
+		this.realExperience = currentXP;
+		this.up = false;
+	}
+
 	public int getLevel() {
 		return level;
 	}

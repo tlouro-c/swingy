@@ -10,12 +10,15 @@ import javax.validation.Validator;
 
 public class HeroBuilder {
 
+	private int dbId;
 	private String name;
 	private int spriteNumber;
 	private CharacterClass characterClass;
 	private int attack;
 	private int defense;
 	private int maxHP;
+	private Level level;
+	private Artifact artifact;
 
 	public HeroBuilder name(String name) {
 		this.name = name;
@@ -42,8 +45,26 @@ public class HeroBuilder {
 		this.maxHP = maxHP;
 		return this;
 	}
+	public HeroBuilder level(Level level) {
+		this.level = level;
+		return this;
+	}
+	public HeroBuilder artifact(Artifact artifact) {
+		this.artifact = artifact;
+		return this;
+	}
+	public HeroBuilder dbId(int dbId) {
+		this.dbId = dbId;
+		return this;
+	}
+
 	public Hero build() throws ConstraintViolationException {
-		var newHero = new Hero(name, spriteNumber, characterClass, attack, defense, maxHP);
+		var newHero = new Hero(name,
+								spriteNumber,
+								characterClass,
+								attack,
+								defense,
+								maxHP);
 
 		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
@@ -53,6 +74,18 @@ public class HeroBuilder {
 		}
 
 		return newHero;
+	}
+
+	public Hero buildExistingHero() {
+		return new Hero(dbId,
+						name, 
+						spriteNumber,
+						level,
+						characterClass,
+						attack,
+						defense,
+						maxHP,
+						artifact);
 	}
 	
 }

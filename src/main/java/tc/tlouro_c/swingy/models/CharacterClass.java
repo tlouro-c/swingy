@@ -13,6 +13,19 @@ public enum CharacterClass {
 		this.maxHPMultiplier = maxHPMultiplier;
 	}
 
+	public static CharacterClass getCorrespondingClass(String type) {
+		switch (type.toLowerCase()) {
+			case "bruiser":
+				return CharacterClass.BRUISER;
+			case "assassin":
+				return CharacterClass.ASSASSIN;
+			case "tank":
+				return CharacterClass.TANK;
+			default:
+				return null;
+		}
+	}
+
 	public double getAttackMultiplier() {
 		return attackMultiplier;
 	}

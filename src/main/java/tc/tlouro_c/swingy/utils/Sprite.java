@@ -6,9 +6,11 @@ import java.awt.Image;
 public class Sprite {
 
 	private final String path;
+	private int spriteNumber;
 
 	public Sprite(boolean isHero, int spriteNumber) {
 		this.path = "/sprites/" + (isHero ? "heroes/" : "villains/") + Integer.toString(spriteNumber);
+		this.spriteNumber = spriteNumber;
 	}
 
 	public Sprite(String path) {
@@ -32,5 +34,9 @@ public class Sprite {
 
 	public String getPath() {
 		return path;
+	}
+
+	public int getSpriteNumber() {
+		return spriteNumber;
 	}
 }
