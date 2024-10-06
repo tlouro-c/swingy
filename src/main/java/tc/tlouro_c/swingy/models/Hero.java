@@ -13,6 +13,7 @@ public class Hero extends Character {
 		this.defense = (int)((defense + 50) * this.characterClass.getDefenseMultiplier());
 		this.maxHP = (int)((maxHP + 200) * this.characterClass.getMaxHPMultiplier());
 		this.currentHP = this.maxHP;
+		this.extraPointsUsed = maxHP + defense + attack;
 	}
 
 	public void move(Direction direction, Map map) {

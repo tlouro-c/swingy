@@ -1,21 +1,28 @@
 package tc.tlouro_c.swingy.views;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.concurrent.Flow;
+import java.awt.event.ActionListener;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import tc.tlouro_c.swingy.models.Character;
+import tc.tlouro_c.swingy.models.CharacterClass;
 import tc.tlouro_c.swingy.utils.Sprite;
 import tc.tlouro_c.swingy.utils.SuperJPanel;
 
-public class HeroSelectView extends SuperJPanel {
+public class HeroSelectView {
 	
 	private CharacterView characterView;
+	private SuperJPanel panel;
 	private SuperJPanel dashboard;
 	private SuperJPanel preview;
 	private SuperJPanel leftColumn;
@@ -29,59 +36,111 @@ public class HeroSelectView extends SuperJPanel {
 	private JLabel hitPointsLabel;
 	private JLabel heroClassLabel;
 	private JLabel remainingPointsLabel;
+	private int selectedSprite;
 
 	public HeroSelectView() {
-		super(1020, 738, new FlowLayout(FlowLayout.LEFT, 3, 3));
+		panel = new SuperJPanel(1020, 738,  new FlowLayout(FlowLayout.LEFT, 3, 3));
 		characterView = new CharacterView();
-		leftColumn = new SuperJPanel(660, 730, getLayout());
-		rightColumn = new SuperJPanel(350, 730, getLayout());
-		mainScreen = new SuperJPanel(650, 500, new FlowLayout(FlowLayout.CENTER, 0, 250));
-		loadInitialButtons();
-
-		leftColumn.add(mainScreen);
-		this.add(leftColumn);
-		this.add(rightColumn);
+		leftColumn = new SuperJPanel(660, 730, panel.getLayout());
+		rightColumn = new SuperJPanel(350, 730, panel.getLayout());
+		mainScreen = new SuperJPanel(650, 500, panel.getLayout());
+		selectedSprite = 1;
+		Border border = BorderFactory.createLineBorder(Color.WHITE, 8);
+		mainScreen.setBorder(border);
 	}
 
-	private void loadInitialButtons() {
+	public SuperJPanel startScreen(ActionListener listenerForCreateHeroBtn) {
+		loadInitialButtons(listenerForCreateHeroBtn);
+		leftColumn.add(mainScreen);
+		panel.add(leftColumn);
+		panel.add(rightColumn);
+
+		return panel;
+	}
+
+	private void clearScreen() {
+		mainScreen.removeAll();
+		mainScreen.revalidate();
+        mainScreen.repaint();
+		rightColumn.removeAll();
+		rightColumn.revalidate();
+        rightColumn.repaint();
+	}
+
+	private void loadInitialButtons(ActionListener listenerForCreateHeroBtn) {
+		clearScreen();
+		mainScreen.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 210));
+
 		createHeroBtn = SuperJPanel.button("Create a new hero", 200, 50);
-		createHeroBtn.addActionListener(e -> loadCreateHeroForm());
-
-
+		createHeroBtn.addActionListener(e -> loadCreateHeroForm(listenerForCreateHeroBtn));
 		selectExistingHeroBtn = SuperJPanel.button("Select an existing hero", 200, 50);
 		mainScreen.add(createHeroBtn);
 		mainScreen.add(selectExistingHeroBtn);
 	}
 
-	private void hideInitialButtons() {
-		createHeroBtn.setVisible(false);
-		selectExistingHeroBtn.setVisible(false);
-	}
+	private void loadCreateHeroForm(ActionListener listenerForCreateHeroBtn) {
+		clearScreen();
+		mainScreen.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 15));
 
-	private void unhideInitialButtons() {
-		createHeroBtn.setVisible(true);
-		selectExistingHeroBtn.setVisible(true);
-	}
-
-	private void loadCreateHeroForm() {
-
-		mainScreen.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-
-		hideInitialButtons();
-
-		
 		remainingPointsLabel = mainScreen.titleLabel("30", null, 1);
 
 		loadHeader();
 		loadHeroClassChoice();
+		loadSpriteChoice();
 		loadNameInput();
 		loadStatsInputs();
-		
-		
+
+		var finalBtnContainer = new SuperJPanel(mainScreen.getWidth(), 50, new FlowLayout(FlowLayout.CENTER, 20, 0));
+
+		var goBackBtn = SuperJPanel.button("Go Back", 100, 50);
+		goBackBtn.addActionListener(e -> loadInitialButtons(listenerForCreateHeroBtn));
+		var createHeroBtn = SuperJPanel.button("Create Hero", 100, 50);
+		createHeroBtn.addActionListener(listenerForCreateHeroBtn);
+
+		finalBtnContainer.add(goBackBtn);
+		finalBtnContainer.add(createHeroBtn);
+		mainScreen.add(finalBtnContainer);
 	}
 
+	private void loadSpriteChoice() {
+		var preview = new SuperJPanel(340, 500, new BorderLayout());
+		var previewSprite = SuperJPanel.icon(Sprite.scaledImage("/sprites/heroes/1_preview.gif", 440, 340));
+		var buttonsContainer = new SuperJPanel(rightColumn.getWidth(), 60, new FlowLayout(FlowLayout.CENTER, 20, 8));
+		Border border = BorderFactory.createLineBorder(Color.WHITE, 8);
+		preview.setBorder(border);
+
+		var choiceLeftBtn = SuperJPanel.iconButton(Sprite.scaledImage("/icons/decrease.png", 20, 20), 30, 30);
+		var choiceRightBtn = SuperJPanel.iconButton(Sprite.scaledImage("/icons/increase.png", 20, 20), 30, 30);
+
+		choiceLeftBtn.addActionListener(e -> choiceLeftBtnSprite(previewSprite));
+		choiceRightBtn.addActionListener(e -> choiceRightBtnSprite(previewSprite));
+
+		preview.add(previewSprite, BorderLayout.NORTH);
+		buttonsContainer.add(choiceLeftBtn);
+		buttonsContainer.add(choiceRightBtn);
+		preview.add(buttonsContainer);
+		rightColumn.add(preview);
+	}
+
+	private void choiceLeftBtnSprite(JLabel sprite) {
+		selectedSprite--;
+		if (selectedSprite < 1) {
+			selectedSprite = 3;
+		}
+		sprite.setIcon(Sprite.scaledImage("/sprites/heroes/" + selectedSprite + "_preview.gif", 440, 340));
+	}
+
+	private void choiceRightBtnSprite(JLabel sprite) {
+		selectedSprite++;
+		if (selectedSprite > 3) {
+			selectedSprite = 1;
+		}
+		sprite.setIcon(Sprite.scaledImage("/sprites/heroes/" + selectedSprite + "_preview.gif", 440, 340));
+	}
+
+
 	private void loadHeader() {
-		var header = new SuperJPanel(mainScreen.getWidth(), 120, new FlowLayout(FlowLayout.CENTER, 0, 5));
+		var header = new SuperJPanel(mainScreen.getWidth(), 140, new FlowLayout(FlowLayout.CENTER, 0, 5));
 
 		var createNewHeroLabel = mainScreen.titleLabel("Create A New Hero", null, 1);
 		var dimension = new Dimension(mainScreen.getWidth(), 50);
@@ -90,7 +149,7 @@ public class HeroSelectView extends SuperJPanel {
 		createNewHeroLabel.setHorizontalAlignment(JLabel.CENTER);
 		createNewHeroLabel.setVerticalAlignment(JLabel.CENTER);
 
-		var descriptionLabel1 = header.textLabel("Each hero begins with all base stats set to 60.", null, 1);
+		var descriptionLabel1 = header.textLabel("Each hero begins the following base stats: 50 Attack, 50 Defense, 200 Hit Points", null, 1);
 		descriptionLabel1.setHorizontalAlignment(JLabel.CENTER);
 		var descriptionLabel2 = header.textLabel("You have an additional 30 points to allocate as you choose.", null, 1);
 		descriptionLabel2.setHorizontalAlignment(JLabel.CENTER);
@@ -119,17 +178,17 @@ public class HeroSelectView extends SuperJPanel {
 		
 		var container = new SuperJPanel(mainScreen.getWidth(), 30, new FlowLayout(FlowLayout.CENTER, 20, 0));
 
-		var label = container.textLabel("Bruiser", null, 0.1);
-		label.setHorizontalAlignment(JLabel.CENTER);
+		heroClassLabel = container.textLabel("Bruiser", null, 0.1);
+		heroClassLabel.setHorizontalAlignment(JLabel.CENTER);
 		var choiceLeftBtn = SuperJPanel.iconButton(Sprite.scaledImage("/icons/decrease.png", 20, 20), 30, 30);
 		var choiceRightBtn = SuperJPanel.iconButton(Sprite.scaledImage("/icons/increase.png", 20, 20), 30, 30);
 
 		AtomicInteger index = new AtomicInteger(0);
-		choiceLeftBtn.addActionListener(e -> choiceLeftBtn(label, index));
-		choiceRightBtn.addActionListener(e -> choiceRightBtn(label, index));
+		choiceLeftBtn.addActionListener(e -> choiceLeftBtn(heroClassLabel, index));
+		choiceRightBtn.addActionListener(e -> choiceRightBtn(heroClassLabel, index));
 
 		container.add(choiceLeftBtn);
-		container.add(label);
+		container.add(heroClassLabel);
 		container.add(choiceRightBtn);
 		mainScreen.add(container);
 	}
@@ -159,6 +218,8 @@ public class HeroSelectView extends SuperJPanel {
 
 	private void loadStatsInputs() {
 
+		String[] types = {"Attack", "Defense", "Hit Points"};
+
 		var helperLabel = mainScreen.textLabel("Remaining Points:", null, -1);
 		helperLabel.setHorizontalAlignment(JLabel.CENTER);
 		remainingPointsLabel = mainScreen.textLabel("30", null, 0.1);
@@ -169,23 +230,24 @@ public class HeroSelectView extends SuperJPanel {
 
 		var labels = new JLabel[] {attackPointsLabel, defensePointsJLabel, hitPointsLabel};
 
-		for (JLabel label : labels) {
-			label.setHorizontalAlignment(JLabel.CENTER);
-
+		for (int i = 0; i < 3; i++) {
+			final int index = i;
+			labels[index].setHorizontalAlignment(JLabel.CENTER);
 			var container = new SuperJPanel(mainScreen.getWidth(), 30, new FlowLayout(FlowLayout.CENTER, 20, 0));
+			var type = container.textLabel(types[index], null, 0.1);
 			var decreaseBtn = SuperJPanel.iconButton(Sprite.scaledImage("/icons/decrease.png", 20, 20), 30, 30);
 			decreaseBtn.setEnabled(false);
 			var increaseBtn = SuperJPanel.iconButton(Sprite.scaledImage("/icons/increase.png", 20, 20), 30, 30);
 
-			decreaseBtn.addActionListener(e -> decreaseLabelValue(label, increaseBtn, decreaseBtn));
-			increaseBtn.addActionListener(e -> increaseLabelValue(label, increaseBtn, decreaseBtn));
+			decreaseBtn.addActionListener(e -> decreaseLabelValue(labels[index], increaseBtn, decreaseBtn));
+			increaseBtn.addActionListener(e -> increaseLabelValue(labels[index], increaseBtn, decreaseBtn));
 
+			container.add(type);
 			container.add(decreaseBtn);
-			container.add(label);
+			container.add(labels[index]);
 			container.add(increaseBtn);
 			mainScreen.add(container);
 		}
-
 		mainScreen.add(helperLabel);
 		mainScreen.add(remainingPointsLabel);
 	}
@@ -224,9 +286,6 @@ public class HeroSelectView extends SuperJPanel {
 		label.setText(Integer.toString(labelValue));
 	}
 
-
-
-
 	private void updateHeroPanelView(Character hero) {
 
 		if (this.dashboard != null) {
@@ -252,6 +311,42 @@ public class HeroSelectView extends SuperJPanel {
 	public void updateHeroView(Character hero) {
 		updateHeroPanelView(hero);
 		updateHeroPreview(hero);
+	}
+
+	public String getHeroName() {
+		return heroName.getText();
+	}
+
+	public int getAttackPoints() {
+		return Integer.parseInt(attackPointsLabel.getText());
+	}
+
+	public int getDefensePoints() {
+		return Integer.parseInt(defensePointsJLabel.getText());
+	}
+
+	public int getHitPoints() {
+		return Integer.parseInt(hitPointsLabel.getText());
+	}
+
+	public int getSelectedSprite() {
+		return selectedSprite;
+	}
+
+	public CharacterClass getHeroClass() {
+		var labelText = heroClassLabel.getText();
+
+		if (labelText == "Assassin") {
+			return CharacterClass.ASSASSIN;
+		} else if (labelText == "Bruiser") {
+			return CharacterClass.BRUISER;
+		} else {
+			return CharacterClass.TANK;
+		}
+	}
+
+	public void	displayErrorPopUp(String text, String title) {
+		JOptionPane.showMessageDialog(mainScreen, text, title, JOptionPane.ERROR_MESSAGE);
 	}
 
 }

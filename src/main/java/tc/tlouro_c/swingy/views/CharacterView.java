@@ -1,12 +1,8 @@
 package tc.tlouro_c.swingy.views;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
@@ -72,14 +68,8 @@ public class CharacterView {
 	}
 
 	public SuperJPanel preview(Character c, int width, int height) {
-
 		var preview = new SuperJPanel(width, height, new BorderLayout());
-
-		Border border = BorderFactory.createLineBorder(Color.WHITE, 8);
-		preview.setBorder(border);
-
-		previewSprite = SuperJPanel.icon(c.getPreviewSprite(height, width));
-
+		previewSprite = SuperJPanel.icon(c.getMapSprite(height, width));
 		preview.add(previewSprite, BorderLayout.CENTER);
 
 		return preview;

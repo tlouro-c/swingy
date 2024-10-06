@@ -1,18 +1,34 @@
 package tc.tlouro_c.swingy.models;
 
 import javax.swing.ImageIcon;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 import tc.tlouro_c.swingy.utils.Sprite;
 
 public class Character extends MapEntity {
 
+	@NotBlank(message = "Please enter a name.")
+	@Size(min = 3, max = 20, message ="Name must be between 3 and 20 characters.")
 	protected String name;
-	protected Sprite sprite;
+	
+	//todo custom annotation
 	protected CharacterClass characterClass;
+	
 	protected Level level;
+	@PositiveOrZero(message = "Attack must be a positive number.")
 	protected int attack;
+	@PositiveOrZero(message = "Defense must be a positive number.")
 	protected int defense;
+	@PositiveOrZero(message = "Max HP must be a positive number.")
 	protected int maxHP;
+	
+	@Max(value = 30, message = "Extra points used must be less than 30.")
+	protected int extraPointsUsed;
+	
+	protected Sprite sprite;
 	protected int currentHP;
 	protected Artifact artifact;
 
