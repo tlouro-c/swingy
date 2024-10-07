@@ -42,9 +42,9 @@ public class CharacterView {
 		var lvlAndHpBar = new SuperJPanel(width - 100, 48, new FlowLayout(FlowLayout.LEFT, 0, 10));
 		var attackAndDefense = new SuperJPanel(width / 2 - 10, 100, new FlowLayout(FlowLayout.LEFT, 0, 15));
 
-		updateLevel(c.getLevel(), c.getCurrentXP() , c.getLvlUpXP());
-		updateHP(c.getCurrentHP(), c.getMaxHP());
-		updateAvatar(c.getMapSprite(90, 90));
+		createLevelBar(c.getLevel(), c.getCurrentXP() , c.getLvlUpXP());
+		createHpBar(c.getCurrentHP(), c.getMaxHP());
+		createAvatar(c.getMapSprite(90, 90));
 		nameLabel = header.titleLabel(c.getName(), null, 1);
 		heroClassLabel = header.textLabel(c.getCharacterClass().toString(), null, 1);
 		attackLabel = d.titleLabel(Integer.toString(c.getAttack()), getStatsIcon("attack"), 0.5);
@@ -95,7 +95,7 @@ public class CharacterView {
 		inventorySlot.setBorder(new LineBorder(new Color(0x696969), 5));
 		inventory.add(inventorySlot);
 
-		updateInventory(artifact, hitPoints, attack, defense);
+		createInventoryLabels(artifact, hitPoints, attack, defense);
 
 		if (artifact != null) {
 			inventorySlot.add(artifactIcon);
@@ -108,38 +108,53 @@ public class CharacterView {
 		return inventory;
 	}
 
-	private void updateLevel(int level, int currentXP, int levelUpXP) {
+	private void createLevelBar(int level, int currentXP, int levelUpXP) {
 		levelBar = SuperJPanel.progressBar(currentXP, levelUpXP, Color.decode("#007FFF"), Color.decode("#6CB4EE"));
 		levelLabel = SuperJPanel.textLabel("Lv. " + Integer.toString(level), null);
 		SuperJPanel.addMargin(levelLabel, 0, 0, 0, 5);
 	}
 
-	private void updateHP(int currentHP, int maxHP) {
+	private void updateLevelBar(int level, int currentXP, int levelUpXP) {
+		levelBar.setValue(currentXP);
+		levelBar.setMaximum(levelUpXP);
+		levelLabel.setText("Lv. " + Integer.toString(level));
+	}
+
+	private void createHpBar(int currentHP, int maxHP) {
 		healthBar = SuperJPanel.progressBar(currentHP, maxHP, Color.decode("#00AB66"), Color.decode("#ACE1AF"));
 		healthLabel = SuperJPanel.textLabel("HP: " + Integer.toString(currentHP) + "/" + Integer.toString(maxHP), null);
 		SuperJPanel.addMargin(healthLabel, 0, 20, 0, 5);
 	}
 
-	public void updateAttackAndDefense(int attack, int defense, int currentHP, int maxHP) {
-		attackLabel.setText(Integer.toString(attack));
-		defenseLabel.setText(Integer.toString(defense));
-		updateHP(currentHP, maxHP);
+	private void updateHpBar(int currentHP, int maxHP) {
+		healthBar.setValue(currentHP);
+		healthBar.setMaximum(maxHP);
+		healthLabel.setText("HP: " + Integer.toString(currentHP) + "/" + Integer.toString(maxHP));
 	}
 
-	public void updateAvatar(ImageIcon avatar) {
+	private void updateStats(int attack, int defense, int currentHP, int maxHP) {
+		attackLabel.setText(Integer.toString(attack));
+		defenseLabel.setText(Integer.toString(defense));
+		updateHpBar(currentHP, maxHP);
+	}
+
+	private void createAvatar(ImageIcon avatar) {
 		avatarLabel = SuperJPanel.icon(avatar);
 		SuperJPanel.addMargin(avatarLabel, -30, 0, 0, 0);
 	}
 
-	public void updateName(String name) {
-		nameLabel.setText(name);
+	public void updateDashboard(Character c) {
+		var attack = c.getAttack();
+		var defense = c.getDefense();
+		var currentHP = c.getCurrentHP();
+		var maxHP = c.getMaxHP();
+
+		updateStats(attack, defense, currentHP, maxHP);
+		updateLevelBar(c.getLevel(), c.getCurrentXP(), c.getLvlUpXP());
+		updateInventory(c.getArtifact(), maxHP, attack, defense);
 	}
 
-	public void updateClass(String heroClass) {
-		heroClassLabel.setText(heroClass);
-	}
-
-	public void updateInventory(Artifact artifact, int hitPoints, int attack, int defense) {
+	public void createInventoryLabels(Artifact artifact, int hitPoints, int attack, int defense) {
 
 		int bonusAttack = 0;
 		int bonusDefense = 0;
@@ -155,5 +170,22 @@ public class CharacterView {
 		bonusAttackLabel = SuperJPanel.textLabel("+" + Integer.toString(bonusAttack) + " Bonus Attack", null);
 		bonusDefenseLabel = SuperJPanel.textLabel("+" + Integer.toString(bonusDefense) + " Bonus Defense", null);
 		bonusHealthLabel = SuperJPanel.textLabel("+" + Integer.toString(bonusMaxHP) + " Bonus HP", null);
+	}
+
+	public void updateInventory(Artifact artifact, int hitPoints, int attack, int defense) {
+
+		int bonusAttack = 0;
+		int bonusDefense = 0;
+		int bonusMaxHP = 0;
+
+		if (artifact != null) {
+			artifactIcon.setIcon(Sprite.scaledImage(artifact.getSprite().getPath(), 50, 50));
+			bonusAttack = (int)(attack * artifact.getAttackMultiplier()) - attack;
+			bonusDefense = (int)(defense * artifact.getDefenseMultiplier()) - defense;
+			bonusMaxHP = (int)(hitPoints * artifact.getMaxHPMultiplier()) - hitPoints;
+		}
+		bonusAttackLabel.setText("+" + Integer.toString(bonusAttack) + " Bonus Attack");
+		bonusDefenseLabel.setText("+" + Integer.toString(bonusDefense) + " Bonus Defense");
+		bonusHealthLabel.setText("+" + Integer.toString(bonusMaxHP) + " Bonus HP");
 	}
 }

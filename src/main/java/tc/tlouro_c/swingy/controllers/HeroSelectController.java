@@ -1,7 +1,6 @@
 package tc.tlouro_c.swingy.controllers;
 
 import java.awt.Frame;
-import java.awt.Desktop.Action;
 import java.awt.event.ActionListener;
 
 import javax.validation.ConstraintViolationException;

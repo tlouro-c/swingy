@@ -4,9 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Desktop.Action;
 import java.awt.event.ActionListener;
-import java.util.concurrent.Flow;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.BorderFactory;
@@ -53,19 +51,19 @@ public class HeroSelectView {
 		leftColumn = new SuperJPanel(660, 730, panel.getLayout());
 		rightColumn = new SuperJPanel(350, 730, panel.getLayout());
 		mainScreen = new SuperJPanel(650, 500, panel.getLayout());
+		Border border = BorderFactory.createLineBorder(Color.WHITE, 6);
+		mainScreen.setBorder(border);
 		selectedSprite = 1;
 		this.listenerForCreateHeroBtn = listenerForCreateHeroBtn;
 		this.listenerForGameStart = listenerForGameStart;
-		Border border = BorderFactory.createLineBorder(Color.WHITE, 8);
-		mainScreen.setBorder(border);
+		
+		leftColumn.add(mainScreen);
+		panel.add(leftColumn);
+		panel.add(rightColumn);
 	}
 
 	public SuperJPanel startScreen() {
 		loadInitialButtons();
-		leftColumn.add(mainScreen);
-		panel.add(leftColumn);
-		panel.add(rightColumn);
-
 		return panel;
 	}
 
@@ -200,7 +198,7 @@ public class HeroSelectView {
 		var preview = new SuperJPanel(340, 500, new BorderLayout());
 		var previewSprite = SuperJPanel.icon(Sprite.scaledImage("/sprites/heroes/1_preview.gif", 440, 340));
 		var buttonsContainer = new SuperJPanel(rightColumn.getWidth(), 60, new FlowLayout(FlowLayout.CENTER, 20, 8));
-		Border border = BorderFactory.createLineBorder(Color.WHITE, 8);
+		Border border = BorderFactory.createLineBorder(Color.WHITE, 6);
 		preview.setBorder(border);
 
 		var choiceLeftBtn = SuperJPanel.iconButton(Sprite.scaledImage("/icons/decrease.png", 20, 20), 30, 30);

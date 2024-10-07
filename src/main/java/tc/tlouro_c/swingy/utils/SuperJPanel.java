@@ -28,7 +28,7 @@ public class SuperJPanel extends JPanel {
         this.setOpaque(false);  // Set to false to allow transparency
 
 		// ! Development only
-		// this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		//  this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 	}
 
 	public static void setFont(JComponent element, Font font, Color color) {
