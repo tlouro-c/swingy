@@ -4,6 +4,8 @@ public class FightSimulator {
 
 	private static FightSimulator instance;
 
+	private FightSimulator() {}
+
 	public static FightSimulator getInstance() {
 		if (instance == null) {
 			instance = new FightSimulator();

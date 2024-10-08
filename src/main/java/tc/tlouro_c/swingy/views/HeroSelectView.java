@@ -17,6 +17,7 @@ import javax.swing.border.Border;
 
 import tc.tlouro_c.swingy.models.Character;
 import tc.tlouro_c.swingy.models.CharacterClass;
+import tc.tlouro_c.swingy.models.Hero;
 import tc.tlouro_c.swingy.utils.DBManager;
 import tc.tlouro_c.swingy.utils.Sprite;
 import tc.tlouro_c.swingy.utils.SuperJPanel;
@@ -42,7 +43,7 @@ public class HeroSelectView {
 	private int selectedSprite;
 	private ActionListener listenerForCreateHeroBtn;
 	private ActionListener listenerForGameStart;
-	private Character selectedHero;
+	private Hero selectedHero;
 
 
 	public HeroSelectView(ActionListener listenerForCreateHeroBtn, ActionListener listenerForGameStart) {
@@ -84,7 +85,7 @@ public class HeroSelectView {
 			var nameLabel = subContainer.textLabel(hero.getName(), null, 0.5);
 			nameLabel.setHorizontalAlignment(JLabel.CENTER);
 			var selectHeroBtn = SuperJPanel.button("Select", 75, 30);
-			selectHeroBtn.addActionListener(e -> selectHero(hero));
+			selectHeroBtn.addActionListener(e -> selectHero((Hero)hero));
 			var deleteHeroBtn = SuperJPanel.button("Delete", 75, 30);
 			deleteHeroBtn.addActionListener(e -> deleteHero(hero));
 
@@ -110,13 +111,13 @@ public class HeroSelectView {
 
 	}
 
-	private void selectHero(Character hero) {
+	private void selectHero(Hero hero) {
 		updateHeroView(hero);
 		this.selectedHero = hero;
 		this.startGameBtn.setEnabled(true);
 	}
 
-	public Character getSelectedHero() {
+	public Hero getSelectedHero() {
 		return selectedHero;
 	}
 
@@ -127,8 +128,13 @@ public class HeroSelectView {
 								"Delete hero" , JOptionPane.YES_NO_OPTION);
 
 		if (confirmationResult == 0) {
-			DBManager.getInstance().deleteHero(hero);
-			loadExistingHeroes();
+			var db = DBManager.getInstance();
+			db.deleteHero(hero);
+			if (db.fetchHeroesCount() > 0) {
+				loadExistingHeroes();
+			} else {
+				loadInitialButtons();
+			}
 		}
 	}
 
@@ -148,7 +154,7 @@ public class HeroSelectView {
 		this.selectedHero = null;
 	}
 
-	private void loadInitialButtons() {
+	public void loadInitialButtons() {
 		clearScreen();
 		mainScreen.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 210));
 

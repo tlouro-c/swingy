@@ -12,7 +12,6 @@ public class Machamp extends Villain {
 		this.name = "Machamp";
 		this.sprite = new Sprite(false, 3);
 		this.characterClass = CharacterClass.BRUISER;
-		this.level = new Level((int)(1 + (6 - 1) * Math.random()));
 		this.assignStats();
 	}
 	

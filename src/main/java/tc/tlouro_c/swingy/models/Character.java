@@ -80,7 +80,11 @@ public class Character extends MapEntity {
 	}
 
 	public void equipArtifact(Artifact artifact) {
-		
+
+		if (artifact != null) {
+			unequipArtifact();
+		}
+
 		int bonusAttack = (int)(this.attack * artifact.getAttackMultiplier()) - this.attack;
 		int bonusDefense = (int)(this.defense * artifact.getDefenseMultiplier()) - this.defense;
 		int bonusMaxHP = (int)(this.maxHP * artifact.getMaxHPMultiplier()) - this.maxHP;

@@ -27,12 +27,6 @@ public class Artifact extends MapEntity {
 		return maxHPMultiplier;
 	}
 
-	@Override
-	public String toString() {
-		return "Artifact [attackMultiplier=" + attackMultiplier + ", defenseMultiplier=" + defenseMultiplier
-				+ ", maxHPMultiplier=" + maxHPMultiplier + "]";
-	}
-
 	public Sprite getSprite() {
 		return sprite;
 	}

@@ -11,6 +11,7 @@ import java.awt.*;
 
 import tc.tlouro_c.swingy.models.Artifact;
 import tc.tlouro_c.swingy.models.Character;
+import tc.tlouro_c.swingy.utils.DebugTools;
 import tc.tlouro_c.swingy.utils.Sprite;
 import tc.tlouro_c.swingy.utils.SuperJPanel;
 
@@ -30,6 +31,7 @@ public class CharacterView {
 	private JLabel levelLabel;
 	private JLabel artifactIcon;
 	private JLabel previewSprite;
+	private SuperJPanel inventorySlot;
 
 	public CharacterView() {
 	}
@@ -44,7 +46,7 @@ public class CharacterView {
 
 		createLevelBar(c.getLevel(), c.getCurrentXP() , c.getLvlUpXP());
 		createHpBar(c.getCurrentHP(), c.getMaxHP());
-		createAvatar(c.getMapSprite(90, 90));
+		createAvatar(c.getMapSprite(80, 80));
 		nameLabel = header.titleLabel(c.getName(), null, 1);
 		heroClassLabel = header.textLabel(c.getCharacterClass().toString(), null, 1);
 		attackLabel = d.titleLabel(Integer.toString(c.getAttack()), getStatsIcon("attack"), 0.5);
@@ -87,7 +89,7 @@ public class CharacterView {
 	private SuperJPanel newInventory(Artifact artifact, int hitPoints, int attack, int defense, int panelWidth) {
 
 		var inventory = new SuperJPanel(panelWidth / 2, 100, new FlowLayout(FlowLayout.LEFT, 12, 12));
-		var inventorySlot = new SuperJPanel(70, 70, new FlowLayout(FlowLayout.CENTER, 0, 5));
+		inventorySlot = new SuperJPanel(70, 70, new FlowLayout(FlowLayout.CENTER, 0, 5));
 		var inventoryLabels = new SuperJPanel(150, 70, new FlowLayout(FlowLayout.LEFT, 0, 4));
 
 		inventorySlot.setBackground(Color.decode("#E0E0E0"));
@@ -140,7 +142,7 @@ public class CharacterView {
 
 	private void createAvatar(ImageIcon avatar) {
 		avatarLabel = SuperJPanel.icon(avatar);
-		SuperJPanel.addMargin(avatarLabel, -30, 0, 0, 0);
+		SuperJPanel.addMargin(avatarLabel, -20, 0, 0, 0);
 	}
 
 	public void updateDashboard(Character c) {
@@ -148,6 +150,8 @@ public class CharacterView {
 		var defense = c.getDefense();
 		var currentHP = c.getCurrentHP();
 		var maxHP = c.getMaxHP();
+
+
 
 		updateStats(attack, defense, currentHP, maxHP);
 		updateLevelBar(c.getLevel(), c.getCurrentXP(), c.getLvlUpXP());
@@ -160,6 +164,7 @@ public class CharacterView {
 		int bonusDefense = 0;
 		int bonusMaxHP = 0;
 
+		artifactIcon = SuperJPanel.icon(null);
 		if (artifact != null) {
 			artifactIcon = SuperJPanel.icon(Sprite.scaledImage(artifact.getSprite().getPath(), 50, 50));
 			bonusAttack = (int)(attack * artifact.getAttackMultiplier()) - attack;
@@ -179,10 +184,15 @@ public class CharacterView {
 		int bonusMaxHP = 0;
 
 		if (artifact != null) {
-			artifactIcon.setIcon(Sprite.scaledImage(artifact.getSprite().getPath(), 50, 50));
+			inventorySlot.removeAll();
+			inventorySlot.revalidate();
+			inventorySlot.repaint();
+			artifactIcon = SuperJPanel.icon(Sprite.scaledImage(artifact.getSprite().getPath(), 50, 50));
 			bonusAttack = (int)(attack * artifact.getAttackMultiplier()) - attack;
 			bonusDefense = (int)(defense * artifact.getDefenseMultiplier()) - defense;
 			bonusMaxHP = (int)(hitPoints * artifact.getMaxHPMultiplier()) - hitPoints;
+
+			inventorySlot.add(artifactIcon);
 		}
 		bonusAttackLabel.setText("+" + Integer.toString(bonusAttack) + " Bonus Attack");
 		bonusDefenseLabel.setText("+" + Integer.toString(bonusDefense) + " Bonus Defense");

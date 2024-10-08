@@ -12,7 +12,6 @@ public class Arcanine extends Villain {
 		this.name = "Arcanine";
 		this.sprite = new Sprite(false, 1);
 		this.characterClass = CharacterClass.ASSASSIN;
-		this.level = new Level((int)(1 + (6 - 1) * Math.random()));
 		this.assignStats();
 	}
 	

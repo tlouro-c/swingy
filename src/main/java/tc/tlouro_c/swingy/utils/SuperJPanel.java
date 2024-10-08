@@ -25,10 +25,10 @@ public class SuperJPanel extends JPanel {
 		this.setPreferredSize(new Dimension(width, height));
 		this.setSize(width, height);
 		this.setBackground(new Color(255,255,255, 0));
-        this.setOpaque(false);  // Set to false to allow transparency
+        this.setOpaque(false);
 
 		// ! Development only
-		//  this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		// this.setBorder(BorderFactory.createLineBorder(Color.RED));
 	}
 
 	public static void setFont(JComponent element, Font font, Color color) {
@@ -37,7 +37,10 @@ public class SuperJPanel extends JPanel {
 	}
 
 	public static JLabel icon(ImageIcon icon) {
-		var iconLabel = new JLabel(icon);
+		var iconLabel = new JLabel();
+		if (icon != null) {
+			iconLabel.setIcon(icon);;
+		}
 
 		// ! Development only
 		// iconLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE));

@@ -14,25 +14,33 @@ public class Game {
 
 	public Game() {
 		this.cli = false;
-		this.window = new Frame("Swingy - Hero Selection");
 		this.heroSelectController = new HeroSelectController(e -> gameplay());
-		this.gameplayController = new GameplayController();
+		this.gameplayController = new GameplayController(this);
 	}
 
 	void run() {
 		DBManager.getInstance().createTableIfNotExists();
-		loadHeroSelection();
+		heroSelection();
 	}
 
-	void loadHeroSelection() {
+	public void heroSelection() {
+		if (this.window != null)  {
+			window.removeAll();
+			window.dispose();
+		}
+		window = new Frame("Swingy - Hero Selection");
 		heroSelectController.setFrame(window);
 		heroSelectController.loadInitialScreen();
 	}
 
 	void gameplay() {
-		window.dispose();
+		if (window != null) {
+			window.removeAll();
+			window.dispose();
+		}
 		window = new Frame("Swingy");
 		gameplayController.setFrame(window);
+		gameplayController.setHero(heroSelectController.getSelectedHero());
 		gameplayController.start();
 	}
 

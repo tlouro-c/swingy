@@ -15,9 +15,10 @@ public class HeroSelectController {
 	private Frame frame;
 	private HeroSelectView view;
 	private DBManager db;
+	ActionListener listenerForGameStart;
 
 	public HeroSelectController(ActionListener listenerForGameStart) {
-		this.view = new HeroSelectView(e -> createHero(), listenerForGameStart);
+		this.listenerForGameStart = listenerForGameStart;
 		this.db = DBManager.getInstance();
 	}
 
@@ -26,10 +27,16 @@ public class HeroSelectController {
 	}
 
 	public void loadInitialScreen() {
+		this.view = new HeroSelectView(e -> createHero(), listenerForGameStart);
 		var startScreen = view.startScreen();
 		frame.add(startScreen);
 		frame.setVisible(true);
 	}
+
+	public Hero getSelectedHero() {
+		return view.getSelectedHero();
+	}
+
 
 	private void createHero() {
 		var heroBuilder = new HeroBuilder();
@@ -45,7 +52,7 @@ public class HeroSelectController {
 		try {
 			newHero = heroBuilder.build();
 			db.createHero(newHero);
-			loadInitialScreen();
+			view.loadInitialButtons();
 		} catch (ConstraintViolationException e) {
 			view.displayErrorPopUp(e.getConstraintViolations().iterator().next().getMessage(), null);
 		}

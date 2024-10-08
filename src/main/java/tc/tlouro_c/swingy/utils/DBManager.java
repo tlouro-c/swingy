@@ -41,7 +41,7 @@ public class DBManager {
 	public void createTableIfNotExists() {
 
 		String sqlQuery = "CREATE TABLE IF NOT EXISTS Heroes ("
-							+ "id INTEGER NOT NULL UNIQUE AUTO INCREMENT,"
+							+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 							+ "name TEXT NOT NULL, "
 							+ "class TEXT NOT NULL CHECK (class IN ('Assassin', 'Bruiser', 'Tank')),"
 							+ "sprite INTEGER NOT NULL CHECK (sprite BETWEEN 1 AND 3),"
@@ -66,19 +66,18 @@ public class DBManager {
 
 	public void createHero(Character hero) {
 
-		String sqlQuery = "INSERT INTO heroes(id, name, class, sprite, attack, defense, hit_points)"
-								+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
+		String sqlQuery = "INSERT INTO heroes(name, class, sprite, attack, defense, hit_points)"
+								+ "VALUES(?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = this.getConnection();
 			PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
 			
-			preparedStatement.setInt(1, hero.getDbId());
-			preparedStatement.setString(2, hero.getName());
-			preparedStatement.setString(3, hero.getCharacterClass().toString());
-			preparedStatement.setInt(4, hero.getSpriteNumber());
-			preparedStatement.setInt(5, hero.getAttack());
-			preparedStatement.setInt(6, hero.getDefense());
-			preparedStatement.setInt(7, hero.getMaxHP());
+			preparedStatement.setString(1, hero.getName());
+			preparedStatement.setString(2, hero.getCharacterClass().toString());
+			preparedStatement.setInt(3, hero.getSpriteNumber());
+			preparedStatement.setInt(4, hero.getAttack());
+			preparedStatement.setInt(5, hero.getDefense());
+			preparedStatement.setInt(6, hero.getMaxHP());
 
 			preparedStatement.executeUpdate();
 			DebugTools.log("Hero entry created Successfully!");
@@ -95,13 +94,15 @@ public class DBManager {
 
 		try (Connection conn = this.getConnection();
 			PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
+
+			var artifact = hero.getArtifact();
 			
 			preparedStatement.setInt(1, hero.getLevel());
 			preparedStatement.setInt(2, hero.getCurrentHP());
 			preparedStatement.setInt(3, hero.getAttack());
 			preparedStatement.setInt(4, hero.getDefense());
 			preparedStatement.setInt(5, hero.getMaxHP());
-			preparedStatement.setString(6, hero.getArtifact().getClass().getSimpleName());
+			preparedStatement.setString(6, artifact != null ? artifact.getClass().getSimpleName() : null);
 			preparedStatement.setInt(7, hero.getDbId());
 
 			preparedStatement.executeUpdate();
