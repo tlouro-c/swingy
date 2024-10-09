@@ -434,9 +434,9 @@ public class HeroSelectView {
 	public CharacterClass getHeroClass() {
 		var labelText = heroClassLabel.getText();
 
-		if (labelText == "Assassin") {
+		if (labelText.equals("Assassin")) {
 			return CharacterClass.ASSASSIN;
-		} else if (labelText == "Bruiser") {
+		} else if (labelText.equals("Bruiser")) {
 			return CharacterClass.BRUISER;
 		} else {
 			return CharacterClass.TANK;

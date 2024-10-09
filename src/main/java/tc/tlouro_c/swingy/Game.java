@@ -13,7 +13,7 @@ public class Game {
 	private boolean cli;
 
 	public Game(String ui) {
-		this.cli = ui.toLowerCase() == "cli";
+		this.cli = ui.toLowerCase().equals("cli");
 		this.heroSelectController = new HeroSelectController(e -> gameplay());
 		this.gameplayController = new GameplayController(this);
 	}
