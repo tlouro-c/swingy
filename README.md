@@ -21,10 +21,12 @@ Swingy is a simple text-based RPG game, developed in Java, where the player can 
 
 
 ### GUI Mode
-(Placeholder for GUI mode screenshots)
+<img src="screenshots/Screenshot%202024-10-09%20at%2003.38.54.png" alt="Create a hero screen" width="500"/>
+<img src="screenshots/Screenshot 2024-10-09 at 03.39.46.png" alt="Map Screen GUI mode" width="500"/>
 
 ### Console Mode
-(Placeholder for console mode screenshots)
+<img src="screenshots/Screenshot 2024-10-09 at 03.41.40.png" alt="Map Screen CLI mode" width="500"/>
+
 
 ## Installation
 1. Clone the repository:  

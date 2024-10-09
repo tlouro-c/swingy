@@ -57,7 +57,7 @@ public class HeroSelectCliView {
 		int i = 1;
 		for (Character hero : existingHeroes) {
 			System.out.println(String.format(
-				"[ %d ]  %s Lv.%d Attack: %d Defense: %d Hit Points:%d Artifact: %s",
+				"[ %d ]  %s  Lv.%d  Attack:%d  Defense:%d  Hit Points:%d  Artifact:%s",
 				i, hero.getName(), hero.getLevel(), hero.getAttack(), hero.getDefense(), hero.getMaxHP(),
 				(hero.getArtifact() != null ? hero.getArtifact().getClass().getSimpleName() : "None")));
 			options.add(i);

@@ -54,6 +54,7 @@
   </dependencies>
 
   <build>
+  	<finalName>${project.artifactId}</finalName>
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
 		 <plugin>
@@ -61,7 +62,6 @@
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.3.0</version>
             <configuration>
-			    <finalName>${project.artifactId}</finalName>
 				<appendAssemblyId>false</appendAssemblyId>
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
