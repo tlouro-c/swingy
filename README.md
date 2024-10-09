@@ -40,11 +40,11 @@ Swingy is a simple text-based RPG game, developed in Java, where the player can 
    ```
 3. Run the game in console mode:
    ```bash
-   java -jar swingy.jar cli
+   java -jar target/swingy.jar cli
    ```
 4. Run the game in GUI mode:
    ```bash
-   java -jar swingy.jar gui
+   java -jar target/swingy.jar gui
    ```
 ## Architecture
 This project follows the Model-View-Controller (MVC) design pattern:
