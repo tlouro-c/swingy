@@ -1,3 +1,4 @@
 *.class
 uml_class_diagram.drawio
 target/
+*.drawio
