@@ -4,9 +4,11 @@ public class Swingy
 {
     public static void main( String[] args )
     {
-		Game game = new Game();
+		var newGame = new Game("gui");
 
-		game.run();
+		newGame.run();
+
+
     }
 		
 }

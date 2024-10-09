@@ -11,10 +11,10 @@ import tc.tlouro_c.swingy.models.Hero;
 import tc.tlouro_c.swingy.models.Map;
 import tc.tlouro_c.swingy.models.Villain;
 import tc.tlouro_c.swingy.utils.DBManager;
-import tc.tlouro_c.swingy.utils.DebugTools;
 import tc.tlouro_c.swingy.utils.Frame;
 import tc.tlouro_c.swingy.utils.MapFinishedException;
 import tc.tlouro_c.swingy.utils.VillainAppearedException;
+import tc.tlouro_c.swingy.views.GameplayCliView;
 import tc.tlouro_c.swingy.views.GameplayView;
 
 public class GameplayController {
@@ -22,6 +22,7 @@ public class GameplayController {
 	private Game game;
 	private Frame frame;
 	private GameplayView gameplayView;
+	private GameplayCliView gameplayCliView;
 	private Hero hero;
 	private Map map;
 	private DBManager db;
@@ -53,7 +54,7 @@ public class GameplayController {
 		enableControls();
 	}
 
-	public void movePlayer (Direction direction) {
+	public void movePlayer(Direction direction) {
 
 		try {
 			hero.move(direction, this.map);
@@ -126,5 +127,62 @@ public class GameplayController {
 		}
 		public void keyTyped(KeyEvent e) {}
 		public void keyReleased(KeyEvent e) {}
+	}
+
+
+	public void cliGameplay(Hero hero) {
+		this.gameplayCliView = new GameplayCliView();
+		this.hero = hero;
+		map = new Map(hero);
+
+		gameplayCliView.waitForEnter("The game will start!");
+		System.out.println("\n\n\n\n\n\n\n\n\n\n");
+		while (hero.isAlive()) {
+			gameplayCliView.printStats(hero);
+			gameplayCliView.drawMap(map);
+			var direction = gameplayCliView.directionInput();
+			try {
+				movePlayerCli(direction, map);
+			} catch (MapFinishedException e) {
+				db.updateHero(hero);
+				break;
+			}
+		}
+		String message = hero.isAlive() ? "You finished this map!": "Your hero died...";
+		gameplayCliView.waitForEnter2(message);
+	}
+
+	private void movePlayerCli(Direction direction, Map map) throws MapFinishedException {
+		try {
+			hero.move(direction, this.map);
+		} catch (VillainAppearedException e) {
+			var villain = e.getVillain();
+			int decision = gameplayCliView.villainFound(villain);
+			if (decision == 1 && Math.random() > 0.5) { // run
+				gameplayCliView.waitForEnter("You were able to run!");
+			} else { // fight
+				gameplayCliView.waitForEnter((decision == 1 ? "You can't run! " : "") + "The fight will start!");
+				var winner = FightSimulator.getInstance().runSimulation(hero, villain);
+				if (winner == hero) {
+					map.getMapGrid()[villain.getY()][villain.getX()] = null;
+					gameplayCliView.waitForEnter2(String.format("You won!\n+%s experience!",
+																		villain.getLevel() * 500));
+					var artifact = villain.getArtifact();
+					if (artifact != null) {
+						var choice = gameplayCliView.pickUpArtifactPrompt(artifact);
+						if (choice == 1) {
+							hero.equipArtifact(artifact);
+						}
+						var message = choice == 1 ? ("You picked up a " + artifact) : "You dropped it";
+						gameplayCliView.waitForEnter(message);
+					}
+					try {
+						hero.move(hero.getDirection(), map);
+					} catch (VillainAppearedException ex) {
+						// ignore, impossible to happen
+					}
+				}
+			}
+		}
 	}
 }

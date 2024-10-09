@@ -8,12 +8,14 @@ import javax.validation.ConstraintViolationException;
 import tc.tlouro_c.swingy.models.Hero;
 import tc.tlouro_c.swingy.models.HeroBuilder;
 import tc.tlouro_c.swingy.utils.DBManager;
+import tc.tlouro_c.swingy.views.HeroSelectCliView;
 import tc.tlouro_c.swingy.views.HeroSelectView;
 
 public class HeroSelectController {
 
 	private Frame frame;
 	private HeroSelectView view;
+	private HeroSelectCliView cliView;
 	private DBManager db;
 	ActionListener listenerForGameStart;
 
@@ -37,7 +39,6 @@ public class HeroSelectController {
 		return view.getSelectedHero();
 	}
 
-
 	private void createHero() {
 		var heroBuilder = new HeroBuilder();
 		Hero newHero;
@@ -48,7 +49,6 @@ public class HeroSelectController {
 					.attack(view.getAttackPoints())
 					.defense(view.getDefensePoints())
 					.maxHP(view.getHitPoints());
-		
 		try {
 			newHero = heroBuilder.build();
 			db.createHero(newHero);
@@ -57,4 +57,34 @@ public class HeroSelectController {
 			view.displayErrorPopUp(e.getConstraintViolations().iterator().next().getMessage(), null);
 		}
 	}
+
+	// CLI 
+
+	public void loadInitialPrompt() {
+		this.cliView = new HeroSelectCliView(this);
+		cliView.initialPrompt();
+	}
+
+	public void createHeroCli() {
+		var heroBuilder = new HeroBuilder();
+		Hero newHero;
+		heroBuilder.name(cliView.getName())
+					.characterClass(cliView.getHeroClass())
+					.attack(cliView.getAttack())
+					.defense(cliView.getDefense())
+					.maxHP(cliView.getHitPoints());
+		try {
+			newHero = heroBuilder.build();
+			db.createHero(newHero);
+			cliView.successCreatingHero();
+		} catch (ConstraintViolationException e) {
+			cliView.invalidCreateHeroForm(e.getConstraintViolations().iterator().next().getMessage());
+		}
+	}
+
+	public Hero getSelectedHeroCli() {
+		return cliView.getSelectedHero();
+	}
+
+
 }

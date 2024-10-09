@@ -11,7 +11,6 @@ import java.awt.*;
 
 import tc.tlouro_c.swingy.models.Artifact;
 import tc.tlouro_c.swingy.models.Character;
-import tc.tlouro_c.swingy.utils.DebugTools;
 import tc.tlouro_c.swingy.utils.Sprite;
 import tc.tlouro_c.swingy.utils.SuperJPanel;
 

@@ -59,6 +59,9 @@ public class HeroBuilder {
 	}
 
 	public Hero build() throws ConstraintViolationException {
+		if (spriteNumber == 0) {
+			spriteNumber = 1;
+		}
 		var newHero = new Hero(name,
 								spriteNumber,
 								characterClass,

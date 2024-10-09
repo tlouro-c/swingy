@@ -96,9 +96,8 @@ public class DBManager {
 			PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
 
 			var artifact = hero.getArtifact();
-			
 			preparedStatement.setInt(1, hero.getLevel());
-			preparedStatement.setInt(2, hero.getCurrentHP());
+			preparedStatement.setInt(2, hero.getCurrentXP());
 			preparedStatement.setInt(3, hero.getAttack());
 			preparedStatement.setInt(4, hero.getDefense());
 			preparedStatement.setInt(5, hero.getMaxHP());
@@ -120,12 +119,10 @@ public class DBManager {
 		try (Connection conn = this.getConnection();
 			PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
 			
-			System.out.println(hero.getDbId());
 			preparedStatement.setInt(1, hero.getDbId());
-
 			preparedStatement.executeUpdate();
 			DebugTools.log("Hero entry deleted Successfully!");
-
+	
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

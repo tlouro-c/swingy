@@ -191,34 +191,31 @@ public class Character extends MapEntity {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Character Details:\n");
-		sb.append("===================\n");
+		sb.append("====== Character Details ======\n");
 		sb.append("Name: ").append(name).append("\n");
 		sb.append("Class: ").append(characterClass != null ? characterClass.toString() : "None").append("\n");
-		sb.append("Level: ").append(level).append("\n");
+		sb.append("Lv." + getLevel() + ": ").append(level.getRealExperience()).append("/").append(level.getLevelUpExperience()).append("   ");
+		sb.append(generateProgressBar(level.getRealExperience(), level.getLevelUpExperience(), 20)).append("\n");
 		sb.append("Attack: ").append(attack).append("\n");
 		sb.append("Defense: ").append(defense).append("\n");
-		sb.append("Hit Points: ").append(currentHP).append("/").append(maxHP).append("\n");
-    	sb.append(generateHitPointsProgressBar(currentHP, maxHP, 20)).append("\n"); // 20 is the length of the progress bar
+		sb.append("Hit Points: ").append(currentHP).append("/").append(maxHP).append("   ");
+    	sb.append(generateProgressBar(currentHP, maxHP, 20)).append("\n");
     
 		sb.append("Equipped Artifact: ").append(artifact != null ? artifact.toString() : "None").append("\n");
-		sb.append("===================\n");
+		sb.append("======================\n");
     	return sb.toString();
 	}
 
-	// Helper method to generate a hit points progress bar
-private String generateHitPointsProgressBar(int current, int max, int barLength) {
+private String generateProgressBar(int current, int max, int barLength) {
     StringBuilder progressBar = new StringBuilder();
-    int filledLength = (int) ((double) current / max * barLength); // Calculate the filled portion of the bar
+    int filledLength = (int) ((double) current / max * barLength);
     
-    // Append filled part of the bar
     for (int i = 0; i < filledLength; i++) {
-        progressBar.append("█"); // Unicode block for filled part
+        progressBar.append("█");
     }
     
-    // Append unfilled part of the bar
     for (int i = filledLength; i < barLength; i++) {
-        progressBar.append("░"); // Unicode block for unfilled part
+        progressBar.append("░");
     }
 
     return progressBar.toString();

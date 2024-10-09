@@ -12,8 +12,8 @@ public class Game {
 	private GameplayController gameplayController;
 	private boolean cli;
 
-	public Game() {
-		this.cli = false;
+	public Game(String ui) {
+		this.cli = ui.toLowerCase() == "cli";
 		this.heroSelectController = new HeroSelectController(e -> gameplay());
 		this.gameplayController = new GameplayController(this);
 	}
@@ -24,34 +24,41 @@ public class Game {
 	}
 
 	public void heroSelection() {
-		if (this.window != null)  {
-			window.removeAll();
-			window.dispose();
+		if (cli) {
+			heroSelectController.loadInitialPrompt();
+			gameplay();
+		} else {
+			if (this.window != null)  {
+				window.removeAll();
+				window.dispose();
+			}
+			window = new Frame("Swingy - Hero Selection");
+			heroSelectController.setFrame(window);
+			heroSelectController.loadInitialScreen();
 		}
-		window = new Frame("Swingy - Hero Selection");
-		heroSelectController.setFrame(window);
-		heroSelectController.loadInitialScreen();
+		
 	}
 
-	void gameplay() {
-		if (window != null) {
-			window.removeAll();
-			window.dispose();
+	private void gameplay() {
+		if (cli) {
+			gameplayController.cliGameplay(heroSelectController.getSelectedHeroCli());
+			heroSelection();
+		} else {
+			if (window != null) {
+				window.removeAll();
+				window.dispose();
+			}
+			window = new Frame("Swingy");
+			gameplayController.setFrame(window);
+			gameplayController.setHero(heroSelectController.getSelectedHero());
+			gameplayController.start();
 		}
-		window = new Frame("Swingy");
-		gameplayController.setFrame(window);
-		gameplayController.setHero(heroSelectController.getSelectedHero());
-		gameplayController.start();
+		
 	}
 
 	public boolean isCli() {
 		return cli;
 	}
 
-	public void setCli(boolean cli) {
-		this.cli = cli;
-	}
-
-	
 	
 }

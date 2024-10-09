@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DebugTools {
 
-	private static boolean ON = true;
+	private static boolean ON = false;
 
 	public static boolean ON() {
 		return ON;

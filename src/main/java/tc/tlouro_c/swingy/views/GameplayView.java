@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.util.concurrent.Flow;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -15,7 +14,6 @@ import tc.tlouro_c.swingy.controllers.GameplayController;
 import tc.tlouro_c.swingy.models.Hero;
 import tc.tlouro_c.swingy.models.Map;
 import tc.tlouro_c.swingy.models.Villain;
-import tc.tlouro_c.swingy.utils.DebugTools;
 import tc.tlouro_c.swingy.utils.SuperJPanel;
 
 public class GameplayView {
@@ -111,12 +109,14 @@ public class GameplayView {
 	}
 
 	public void freeHero(String message) {
-		interactivePanel.removeAll();
-		interactivePanel.revalidate();
-		interactivePanel.repaint();
-		var label = interactivePanel.titleLabel(message, null, 1);
-		label.setHorizontalAlignment(JLabel.CENTER);
-		interactivePanel.add(label);
+		if (message != null) {
+			interactivePanel.removeAll();
+			interactivePanel.revalidate();
+			interactivePanel.repaint();
+			var label = interactivePanel.titleLabel(message, null, 1);
+			label.setHorizontalAlignment(JLabel.CENTER);
+			interactivePanel.add(label);
+		}
 		controller.enableControls();
 	}
 
@@ -154,12 +154,14 @@ public class GameplayView {
 			var pickBtn = SuperJPanel.button("Pick it up", 150, 50);
 			var dropBtn = SuperJPanel.button("Drop it", 150, 50);
 
-			pickBtn.addActionListener(e -> controller.pickUpArtifact(artifact));
+			pickBtn.addActionListener(e -> {controller.pickUpArtifact(artifact);});
 			dropBtn.addActionListener(e -> freeHero(""));
 
 			interactivePanel.add(artifactLabel);
 			interactivePanel.add(pickBtn);
 			interactivePanel.add(dropBtn);
+		} else {
+			freeHero(null);
 		}
 	}
 

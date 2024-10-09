@@ -44,8 +44,6 @@ public class Hero extends Character {
 		int futureX = this.getX() + direction.getXDelta();
 		int futureY = this.getY() + direction.getYDelta();
 
-
-
 		if (futureX >= map.getMapSize() || futureY >= map.getMapSize()
 			|| futureX < 0 || futureY < 0) {
 			throw new MapFinishedException("You completed this map!");
