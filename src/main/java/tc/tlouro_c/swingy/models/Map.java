@@ -9,7 +9,7 @@ public class Map {
 	private int spawnXY;
 
 	public Map(Hero hero) {
-		this.mapSize = (hero.getLevel() - 1) * 5 + 10 - hero.getLevel(); 
+		this.mapSize = (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2); 
 		this.spawnXY = mapSize / 2;
 		this.mapGrid = new MapEntity[mapSize][mapSize];
 		this.populate(hero);
